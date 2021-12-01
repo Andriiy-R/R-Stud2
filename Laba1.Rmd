@@ -1,0 +1,87 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+1. За допомогою download.file() завантажте любий excel файл з порталу 
+http://data.gov.ua та зчитайте його (xls, xlsx – бінарні формати, тому 
+встановить mode = “wb”. Виведіть перші 6 строк отриманого фрейму 
+даних.
+
+```{r}
+download.file('https://data.gov.ua/dataset/83464a4f-f8cd-42e6-8b2b-5b16abc6acc3/resource/28ebc80a-d156-4721-9598-e2be45481acd/download/coal_production_2021_10.xlsx', destfile = "./data.xlsx",mode = "wb")
+```
+
+```{r}
+data1=read_xlsx('data.xlsx')
+```
+
+
+```{r}
+tail(data1,6)
+```
+
+
+2. За допомогою download.file() завантажте файл getdata_data_ss06hid.csv за 
+посиланням 
+https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv та 
+завантажте дані в R. Code book, що пояснює значення змінних 
+знаходиться за посиланням 
+https://www.dropbox.com/s/dijv0rlwo4mryv5/PUMSDataDict06.pdf?dl=0 
+Необхідно знайти, скільки property мають value $1000000+
+
+
+```{r}
+download.file('https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv', destfile = "./data2.csv")
+```
+
+```{r}
+data2=read.csv('data2.csv')
+head(data2)
+```
+
+
+
+```{r}
+val24<-which(data2$VAL==24)
+length(val24)
+```
+3. Зчитайте xml файл за посиланням http://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml Скільки ресторанів мають zipcode 21231?
+
+```{r}
+data3=xmlTreeParse("http://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Frestaurants.xml", useInternal=TRUE)
+rootNode=xmlRoot(data3)
+xmlName(rootNode)
+```
+```{r}
+rootNode[[1]][[1]]
+```
+
+```{r}
+sum(xpathSApply(xmlRoot(data3), "//zipcode", xmlValue)==21231)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
